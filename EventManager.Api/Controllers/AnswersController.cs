@@ -52,18 +52,16 @@ public class AnswersController : ControllerBase
     public async Task<ActionResult<AnswerResponse>> Create(
         CreateAnswer request)
     {
-        var questionExists = await _context.Questions
-            .AnyAsync(q => q.Id == request.QuestionId);
+        var question = await _context.Questions.FindAsync(request.QuestionId);
 
-        if (!questionExists)
+        if (question is null)
             return BadRequest("Вопрос не найден.");
 
         var answer = request.Adapt<Answer>();
+        answer.Question = question;
 
         _context.Answers.Add(answer);
         await _context.SaveChangesAsync();
-
-        await _context.Entry(answer).Reference(a => a.Question).LoadAsync();
 
         var response = answer.Adapt<AnswerResponse>();
 

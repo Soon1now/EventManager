@@ -9,7 +9,5 @@ namespace EventManager.Api.DTOs.Registration
 
         [Range(1, int.MaxValue)]
         public int EventId { get; set; }
-
-        public int? StatusId { get; set; } = 1;
     }
 }

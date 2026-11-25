@@ -66,7 +66,7 @@ public class RegistrationsController : ControllerBase
         if (alreadyRegistered)
             return Conflict("Пользователь уже зарегистрирован на это мероприятие.");
 
-        var registeredStatus = await _context.RegistrationStatuses.FirstOrDefaultAsync(s => s.Status == "registered");
+        var registeredStatus = await _context.RegistrationStatuses.FirstOrDefaultAsync(s => s.Status == "registrated");
         if (registeredStatus is null)
             return BadRequest("Статус отсутствует в справочнике.");
 

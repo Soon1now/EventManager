@@ -54,16 +54,14 @@ public class QuestionsController : ControllerBase
     public async Task<ActionResult<QuestionResponse>> Create(
         CreateQuestion request)
     {
-        var eventExists = await _context.Events
-            .AnyAsync(e => e.Id == request.EventId);
+        var eventItem = await _context.Events.FindAsync(request.EventId);
 
-        if (!eventExists)
+        if (eventItem is null)
             return BadRequest("Мероприятие не найдено.");
 
-        var typeExists = await _context.QuestionTypes
-            .AnyAsync(t => t.Id == request.TypeId);
+        var typeItem = await _context.QuestionTypes.FindAsync(request.TypeId);
 
-        if (!typeExists)
+        if (typeItem is null)
             return BadRequest("Тип вопроса не найден.");
 
         var indexExists = await _context.Questions
@@ -75,12 +73,11 @@ public class QuestionsController : ControllerBase
             return Conflict("Вопрос с таким порядковым номером уже существует.");
 
         var question = request.Adapt<Question>();
-
+        question.Event = eventItem;
+        question.Type = typeItem;
+        
         _context.Questions.Add(question);
         await _context.SaveChangesAsync();
-
-        await _context.Entry(question).Reference(q => q.Event).LoadAsync();
-        await _context.Entry(question).Reference(q => q.Type).LoadAsync();
 
         var response = question.Adapt<QuestionResponse>();
 
@@ -103,10 +100,9 @@ public class QuestionsController : ControllerBase
         if (question == null)
             return NotFound();
 
-        var typeExists = await _context.QuestionTypes
-            .AnyAsync(t => t.Id == request.TypeId);
+        var typeItem = await _context.QuestionTypes.FindAsync(request.TypeId);
 
-        if (!typeExists)
+        if (typeItem is null)
             return BadRequest("Тип вопроса не найден.");
 
         var indexExists = await _context.Questions
@@ -120,12 +116,11 @@ public class QuestionsController : ControllerBase
 
         question.Text = request.Text;
         question.TypeId = request.TypeId;
+        question.Type = typeItem;
         question.Weight = request.Weight;
         question.Index = request.Index;
 
         await _context.SaveChangesAsync();
-
-        await _context.Entry(question).Reference(q => q.Type).LoadAsync();
 
         return Ok(question.Adapt<QuestionResponse>());
     }

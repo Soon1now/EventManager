@@ -6,7 +6,7 @@
         public string Text { get; set; } = string.Empty;
         public int QuestionId { get; set; }
         public Question Question { get; set; } = null!;
-        public bool IsCorrect { get; set; } = false;
+        public int IsCorrect { get; set; } = 0;
 
     }
 }
