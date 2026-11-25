@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+
+  --color-primary: #347c45;
+  --color-primary-hover: #286439;
+  --color-primary-active: #1d4d30;
+  --color-primary-light: #e0ffc2;
+  --color-primary-soft: #c4e9a6;
+
+  --color-accent: #f3a54a;
+  --color-info: #76b9ce;
+
+  --color-surface: #ffffff;
+  --color-background: #f7f8f5;
+  --color-surface-secondary: #eef1ec;
+  --color-border: #e2e7e0;
+
+  --color-text: #1c231d;
+  --color-text-secondary: #788178;
+  --color-text-muted: #b5beb6;
+
+  --color-success: var(--color-primary);
+  --color-success-soft: var(--color-primary-light);
+
+  --color-warning: #c97419;
+  --color-warning-soft: #fff0d5;
+
+  --color-error: #d94b45;
+  --color-error-soft: #fce4e2;
+
+  --color-disabled: #e2e7e0;
+  --color-overlay: #1c231d80;
+  --color-focus: #78b85e;
+
+  --radius-card: 1rem;
+  --radius-control: 0.625rem;
+}
+@layer base {
+  body {
+    background-color: var(--color-surface-muted);
+    color: var(--color-text);
+    font-family: "Play", sans-serif;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+    color: #c2ffd3;
+  }
+}
